@@ -7,3 +7,4 @@ export const selectDifficulty = (state) => state.game.difficulty;
 export const selectGameFinished = (state) => state.game.gameFinished;
 export const selectRoundFinished = (state) => state.game.roundFinished;
 export const selectRoundNumber = (state) => state.game.roundNumber;
+export const selectRoundLocation = (state) => state.game.roundLocation;

@@ -8,8 +8,7 @@ import { renderSubLayers } from "../round/Minimap";
 import Score from "../Score";
 import { useDispatch, useSelector } from "react-redux";
 import { startNextRound } from "../../redux-modules/game/gameSlice";
-import { selectGuessedLocation, selectRoundDistance, selectRoundNumber, selectRoundScore, selectScore } from "../../redux-modules/game/gameSelector";
-import { locationsList } from "../../constants/locations";
+import { selectGuessedLocation, selectRoundDistance, selectRoundLocation, selectRoundNumber, selectRoundScore, selectScore } from "../../redux-modules/game/gameSelector";
 
 const INITIAL_VIEW_STATE = {
     zoom: 4,
@@ -37,15 +36,15 @@ const RoundFinished = () => {
     const distance = useSelector(selectRoundDistance);
     const roundNumber = useSelector(selectRoundNumber);
     const guessedLocation = useSelector(selectGuessedLocation);
-    const realLocation = locationsList[roundNumber];
+    const roundLocation = useSelector(selectRoundLocation);
     
     const iconData = useMemo(() => [{
         marker: 'guessMarker',
         coordinates: guessedLocation,
     }, {
         marker: 'locationMarker',
-        coordinates: realLocation,
-    }], [guessedLocation, realLocation])
+        coordinates: roundLocation,
+    }], [guessedLocation, roundLocation])
 
     const iconLayer = new IconLayer({
         id: 'minimap-icon-layer',
@@ -75,7 +74,7 @@ const RoundFinished = () => {
     const lineLayer = new LineLayer({
         data: [{
             from: guessedLocation,
-            to: realLocation,
+            to: roundLocation,
         }],
         getSourcePosition: d => d.from,
         getTargetPosition: d => d.to,
@@ -96,8 +95,8 @@ const RoundFinished = () => {
                 <DeckGL
                     initialViewState={{
                         ...INITIAL_VIEW_STATE,
-                        longitude: realLocation[0],
-                        latitude: realLocation[1],
+                        longitude: roundLocation[0],
+                        latitude: roundLocation[1],
                     }}
                     controller={MINIMAP_CONTROLLER}
                     layers={[tileLayer, iconLayer, lineLayer]}

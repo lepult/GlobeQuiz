@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { locationsList } from "../../constants/locations";
 
 const deg2rad = (deg) => {
@@ -38,6 +38,9 @@ const initialState = {
     roundFinished: false,
 
     roundNumber: -1,
+    roundLocation: null,
+
+    locationsPool: locationsList,
 }
 
 export const gameSlice = createSlice({
@@ -48,14 +51,14 @@ export const gameSlice = createSlice({
             state.difficulty = payload;
         },
         startGame: (state) => {
-            state.roundNumber = 4;
+            state.roundNumber = 0;
         },
         makeGuess: (state, { payload }) => {
             const distance = getDistanceFromLatLonInKm(
                 payload[1],
                 payload[0],
-                locationsList[state.roundNumber][1],
-                locationsList[state.roundNumber][0],
+                state.roundLocation[1],
+                state.roundLocation[0],
             );
 
             const score = getScoreFromDistanceInKm(distance);
@@ -67,7 +70,10 @@ export const gameSlice = createSlice({
             state.guessedLocation = payload;
             state.locations = [
                 ...state.locations,
-                { guessedLocation: payload, realLocation: locationsList[state.roundNumber] },
+                {
+                    guessedLocation: payload,
+                    realLocation: state.roundLocation,
+                },
             ];
 
             state.roundFinished = true;
@@ -78,6 +84,10 @@ export const gameSlice = createSlice({
             } else {
                 state.roundNumber += 1;
                 state.roundFinished = false;
+
+                const locationIndex = Math.floor(Math.random() * state.locationsPool.length);
+                state.roundLocation = state.locationsPool[locationIndex];
+                state.locationsPool.splice(locationIndex, 1);
             }
         },
         goToMainMenu: () => initialState,

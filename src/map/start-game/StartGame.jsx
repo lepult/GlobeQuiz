@@ -1,8 +1,8 @@
 import { Button, FormControlLabel, Radio, RadioGroup } from "@mui/material";
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectDifficulty } from "../../redux-modules/game/gameSelector";
-import { setDifficulty, startGame } from "../../redux-modules/game/gameSlice";
+import { setDifficulty, startNextRound } from "../../redux-modules/game/gameSlice";
 
 const radioColor ={
     color: 'white',
@@ -10,9 +10,11 @@ const radioColor ={
 
 const StartGame = () => {
     const dispatch = useDispatch();
+
     const difficulty = useSelector(selectDifficulty);
 
-    const handleChange = (_, newDifficulty) => dispatch(setDifficulty(newDifficulty));
+    const handleChange = useCallback((_, newDifficulty) => dispatch(setDifficulty(newDifficulty)),
+        [dispatch]);
 
     return (
         <div
@@ -36,7 +38,7 @@ const StartGame = () => {
                 </RadioGroup>
                 <Button
                     variant="contained" 
-                    onClick={() => dispatch(startGame())}
+                    onClick={() => dispatch(startNextRound())}
                     style={{
                         marginTop: '20px'
                     }}

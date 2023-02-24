@@ -6,8 +6,7 @@ import {TerrainLayer} from '@deck.gl/geo-layers';
 import {IconLayer} from '@deck.gl/layers';
 import { getMarkerColor, ICON_MAPPING } from '../../constants/map';
 import { useSelector } from 'react-redux';
-import { selectDifficulty, selectRoundNumber } from '../../redux-modules/game/gameSelector';
-import { locationsList } from '../../constants/locations';
+import { selectDifficulty, selectRoundLocation, selectRoundNumber } from '../../redux-modules/game/gameSelector';
 import { useMemo } from 'react';
 
 const INITIAL_VIEW_STATE = {
@@ -55,6 +54,7 @@ const ELEVATION_DECODER = {
 const Map = () => {
   const roundNumber = useSelector(selectRoundNumber);
   const difficulty = useSelector(selectDifficulty);
+  const roundLocation = useSelector(selectRoundLocation);
   
   const viewController = useMemo(() => {
     switch (difficulty) {
@@ -67,9 +67,9 @@ const Map = () => {
 
   const [initialCoordinates] = useState(() => roundNumber >= 0 && roundNumber < 5
     ? ({
-      longitude: locationsList[roundNumber][0],
-      latitude: locationsList[roundNumber][1],
-      height: locationsList[roundNumber][2]
+      longitude: roundLocation[0],
+      latitude: roundLocation[1],
+      height: roundLocation[2]
     }) : null);
 
   const [iconData] = useState([[
