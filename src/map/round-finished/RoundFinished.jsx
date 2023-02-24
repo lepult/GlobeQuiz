@@ -1,12 +1,15 @@
-import { Button, FormControlLabel, LinearProgress, Radio, RadioGroup } from "@mui/material";
+import { Button, LinearProgress } from "@mui/material";
 import React, { useMemo } from "react";
-import { useState } from "react";
-import {BitmapLayer, PathLayer, IconLayer, LineLayer} from '@deck.gl/layers';
-import { MINIMAP_WIDTH, MINIMAP_HEIGHT, ICON_MAPPING, getMarkerColor } from '../../constants/map';
+import { IconLayer, LineLayer} from '@deck.gl/layers';
+import { ICON_MAPPING, getMarkerColor } from '../../constants/map';
 import { TileLayer } from "deck.gl";
 import DeckGL from '@deck.gl/react';
 import { renderSubLayers } from "../round/Minimap";
 import Score from "../Score";
+import { useDispatch, useSelector } from "react-redux";
+import { startNextRound } from "../../redux-modules/game/gameSlice";
+import { selectGuessedLocation, selectRoundDistance, selectRoundNumber, selectRoundScore, selectScore } from "../../redux-modules/game/gameSelector";
+import { locationsList } from "../../constants/locations";
 
 const INITIAL_VIEW_STATE = {
     zoom: 4,
@@ -26,7 +29,16 @@ const MINIMAP_CONTROLLER = {
     keyboard: false,
 }
 
-const RoundFinished = ({ onStartNextRound, roundScore, score, distance, roundNumber, guessedLocation, realLocation }) => {
+const RoundFinished = () => {
+    const dispatch = useDispatch();
+
+    const score = useSelector(selectScore);
+    const roundScore = useSelector(selectRoundScore);
+    const distance = useSelector(selectRoundDistance);
+    const roundNumber = useSelector(selectRoundNumber);
+    const guessedLocation = useSelector(selectGuessedLocation);
+    const realLocation = locationsList[roundNumber];
+    
     const iconData = useMemo(() => [{
         marker: 'guessMarker',
         coordinates: guessedLocation,
@@ -119,7 +131,7 @@ const RoundFinished = ({ onStartNextRound, roundScore, score, distance, roundNum
                     </div>
                     <Button
                         variant="contained" 
-                        onClick={onStartNextRound}
+                        onClick={() => dispatch(startNextRound())}
                         style={{
                             marginTop: '30px'
                         }}

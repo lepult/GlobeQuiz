@@ -1,0 +1,9 @@
+export const selectGuessedLocation = (state) => state.game.guessedLocation;
+export const selectLocations = (state) => state.game.locations;
+export const selectScore = (state) => state.game.score;
+export const selectRoundScore = (state) => state.game.roundScore;
+export const selectRoundDistance = (state) => state.game.roundDistance;
+export const selectDifficulty = (state) => state.game.difficulty;
+export const selectGameFinished = (state) => state.game.gameFinished;
+export const selectRoundFinished = (state) => state.game.roundFinished;
+export const selectRoundNumber = (state) => state.game.roundNumber;

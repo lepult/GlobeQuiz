@@ -1,13 +1,14 @@
 import { Button, FormControlLabel, LinearProgress, Radio, RadioGroup } from "@mui/material";
 import React, { useMemo } from "react";
-import { useState } from "react";
-import {BitmapLayer, PathLayer, IconLayer, LineLayer} from '@deck.gl/layers';
-import { MINIMAP_WIDTH, MINIMAP_HEIGHT, ICON_MAPPING, getMarkerColor } from '../../constants/map';
+import {IconLayer, LineLayer} from '@deck.gl/layers';
+import { ICON_MAPPING, getMarkerColor } from '../../constants/map';
 import { TileLayer } from "deck.gl";
 import DeckGL from '@deck.gl/react';
 import { renderSubLayers } from "../round/Minimap";
-import Score from "../Score";
 import { restrictViewBounds } from "../../utils/mapHelper";
+import { useDispatch, useSelector } from "react-redux";
+import { goToMainMenu } from "../../redux-modules/game/gameSlice";
+import { selectLocations, selectScore } from "../../redux-modules/game/gameSelector";
 
 const INITIAL_VIEW_STATE = {
     longitude: 0,
@@ -29,7 +30,12 @@ const MINIMAP_CONTROLLER = {
     keyboard: false,
 }
 
-const GameFinished = ({ onGoToMainMenu, score = 2200, locations }) => {
+const GameFinished = () => {
+    const dispatch = useDispatch();
+
+    const score = useSelector(selectScore);
+    const locations = useSelector(selectLocations);
+
     const iconData = useMemo(() => [
         ...locations.map((l) => ({
             marker: 'guessMarker',
@@ -109,7 +115,7 @@ const GameFinished = ({ onGoToMainMenu, score = 2200, locations }) => {
                     </div>
                     <Button
                         variant="contained" 
-                        onClick={onGoToMainMenu}
+                        onClick={() => dispatch(goToMainMenu())}
                         style={{
                             marginTop: '30px'
                         }}

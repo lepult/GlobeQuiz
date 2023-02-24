@@ -2,12 +2,14 @@ import { TileLayer } from "deck.gl";
 import DeckGL from '@deck.gl/react';
 import React from "react";
 import {BitmapLayer, PathLayer, IconLayer} from '@deck.gl/layers';
-import { MINIMAP_WIDTH, MINIMAP_HEIGHT, ICON_MAPPING } from '../../constants/map';
+import { MINIMAP_WIDTH, MINIMAP_HEIGHT, ICON_MAPPING, getMarkerColor } from '../../constants/map';
 import { useState } from "react";
 import { useMemo } from "react";
 import { useEffect } from "react";
 import { Button } from "@mui/material";
 import { restrictViewBounds } from "../../utils/mapHelper";
+import { useDispatch } from "react-redux";
+import { makeGuess } from "../../redux-modules/game/gameSlice";
 
 const INITIAL_VIEW_STATE = {
     latitude: 30,
@@ -59,7 +61,9 @@ export const renderSubLayers = (props) => {
   ];
 }
 
-const MiniMap = ({ onFinishRound }) => {
+const MiniMap = () => {
+  const dispatch = useDispatch(); 
+
   const [guessedLocation, setGuessedLocation] = useState(null);
  
   const iconData = useMemo(() => guessedLocation
@@ -72,7 +76,7 @@ const MiniMap = ({ onFinishRound }) => {
     data: iconData,
     getPosition: coordinates => coordinates,
     getIcon: () => 'guessMarker',
-    getColor: [21, 101, 192],
+    getColor: getMarkerColor('guessMarker'),
     getSize: 5,
     sizeScale: 7,
     pickable: false,
@@ -118,7 +122,7 @@ const MiniMap = ({ onFinishRound }) => {
         variant="contained"
         disabled={!guessedLocation}
         disableElevation
-        onClick={() => onFinishRound(guessedLocation)}
+        onClick={() => dispatch(makeGuess(guessedLocation))}
         style={{
           width: '100%',
           borderRadius: '0 0 4px 4px',
