@@ -111,7 +111,7 @@ const RoundFinished = () => {
             </div>
             <div className="round-finished__info">
                 <h1 style={{ margin: '20 0 30px' }}>
-                    Runde {roundNumber + 1}
+                    {roundLocation[3]}
                 </h1>
                 <div style={{
                     display: 'flex',
