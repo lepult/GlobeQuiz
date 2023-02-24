@@ -6,19 +6,18 @@ import {TerrainLayer} from '@deck.gl/geo-layers';
 import {IconLayer} from '@deck.gl/layers';
 import { getMarkerColor, ICON_MAPPING } from '../../constants/map';
 import { useSelector } from 'react-redux';
-import { selectRoundNumber } from '../../redux-modules/game/gameSelector';
+import { selectDifficulty, selectRoundNumber } from '../../redux-modules/game/gameSelector';
 import { locationsList } from '../../constants/locations';
+import { useMemo } from 'react';
 
 const INITIAL_VIEW_STATE = {
-  longitude: -122.18,
-  latitude: 46.199444,
   zoom: 11.5,
   bearing: 140,
-  pitch: 60,
-  maxPitch: 89
+  pitch: 65,
+  maxPitch: 65
 };
 
-const MAP_CONTROLLER = {
+const MAP_CONTROLLER_EASY = {
   scrollZoom: true,
   dragPan: true,
   dragRotate: true,
@@ -26,6 +25,21 @@ const MAP_CONTROLLER = {
   touchZoom: false,
   touchRotate: false,
   keyboard: false,
+};
+
+const MAP_CONTROLLER_MEDIUM = {
+  ...MAP_CONTROLLER_EASY,
+  dragPan: false,
+}
+
+const MAP_CONTROLLER_DIFFICULT = {
+  ...MAP_CONTROLLER_MEDIUM,
+  scrollZoom: false,
+}
+
+const MAP_CONTROLLER_EXPERT = {
+  ...MAP_CONTROLLER_DIFFICULT,
+  dragRotate: false,
 }
 
 const TERRAIN_IMAGE = `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png`;
@@ -40,6 +54,16 @@ const ELEVATION_DECODER = {
 
 const Map = () => {
   const roundNumber = useSelector(selectRoundNumber);
+  const difficulty = useSelector(selectDifficulty);
+  
+  const viewController = useMemo(() => {
+    switch (difficulty) {
+      case 'expert': return MAP_CONTROLLER_EXPERT;
+      case 'difficult': return MAP_CONTROLLER_DIFFICULT;
+      case 'medium': return MAP_CONTROLLER_MEDIUM;
+      default: return MAP_CONTROLLER_EASY;
+    }
+  }, [difficulty])
 
   const [initialCoordinates] = useState(() => roundNumber >= 0 && roundNumber < 5
     ? ({
@@ -86,7 +110,7 @@ const Map = () => {
         longitude: initialCoordinates.longitude,
         latitude: initialCoordinates.latitude,
       }}
-      controller={MAP_CONTROLLER}
+      controller={viewController}
       layers={[terrainLayer, iconLayer]}
     />
   );

@@ -32,6 +32,7 @@ const StartGame = () => {
                     <FormControlLabel value="easy" control={<Radio sx={radioColor}/>} label="Einfach" />
                     <FormControlLabel value="medium" control={<Radio  sx={radioColor}/>} label="Mittel" />
                     <FormControlLabel value="difficult" control={<Radio  sx={radioColor}/>} label="Schwer" />
+                    <FormControlLabel value="expert" control={<Radio  sx={radioColor}/>} label="Experte" />
                 </RadioGroup>
                 <Button
                     variant="contained" 
