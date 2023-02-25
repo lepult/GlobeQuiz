@@ -8,12 +8,18 @@ import { getMarkerColor, ICON_MAPPING } from '../../constants/map';
 import { useSelector } from 'react-redux';
 import { selectDifficulty, selectRoundLocation, selectRoundNumber } from '../../redux-modules/game/gameSelector';
 import { useMemo } from 'react';
+import { useCallback } from 'react';
+
+const MIN_ZOOM = 11;
+const MAX_ZOOM = 15
 
 const INITIAL_VIEW_STATE = {
   zoom: 11.5,
-  bearing: 140,
-  pitch: 65,
-  maxPitch: 65
+  minZoom: MIN_ZOOM,
+  maxZoom: MAX_ZOOM,
+  bearing: 0,
+  pitch: 60,
+  maxPitch: 70,
 };
 
 const MAP_CONTROLLER_EASY = {
@@ -55,6 +61,24 @@ const Map = () => {
   const roundNumber = useSelector(selectRoundNumber);
   const difficulty = useSelector(selectDifficulty);
   const roundLocation = useSelector(selectRoundLocation);
+
+  const restrictMainMapViewBounds = useCallback(({viewState, oldViewState}) => {
+    const longitude = roundLocation[0];
+    const latitude = roundLocation[1];
+    const tollerance = 0.15;
+    if (viewState.longitude > longitude + tollerance) {
+      viewState.longitude = longitude + tollerance;
+    } else if (viewState.longitude < longitude - + tollerance) {
+      viewState.longitude = longitude - + tollerance;
+    }
+    if (viewState.latitude > latitude + + tollerance) {
+      viewState.latitude = latitude + + tollerance;
+    } else if (viewState.latitude < latitude - + tollerance) {
+      viewState.latitude = latitude - + tollerance;
+    }
+
+    return viewState;
+  }, [roundLocation])
   
   const viewController = useMemo(() => {
     switch (difficulty) {
@@ -80,8 +104,8 @@ const Map = () => {
 
   const terrainLayer = new TerrainLayer({
     id: 'main-map-terrain',
-    minZoom: 0,
-    maxZoom: 23,
+    minZoom: MIN_ZOOM,
+    maxZoom: MAX_ZOOM,
     strategy: 'no-overlap',
     elevationDecoder: ELEVATION_DECODER,
     elevationData: TERRAIN_IMAGE,
@@ -112,6 +136,7 @@ const Map = () => {
       }}
       controller={viewController}
       layers={[terrainLayer, iconLayer]}
+      onViewStateChange={restrictMainMapViewBounds}
     />
   );
 };
