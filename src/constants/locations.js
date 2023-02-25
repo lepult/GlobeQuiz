@@ -1,5 +1,6 @@
 export const locationsList = [
-
+    // Antarctica
+    [-36.7, -54.4, 0, "South Georgia"],
 
     // CIV 5 Wonders
     [80.499722, 6.809444, 0, "Śrī Pāda"],
