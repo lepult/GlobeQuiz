@@ -69,7 +69,6 @@ const MiniMap = () => {
   const iconData = useMemo(() => guessedLocation
     ? [guessedLocation]
     : [], [guessedLocation]);
-    console.log('iconData', iconData)
 
   const iconLayer = new IconLayer({
     id: 'minimap-icon-layer',

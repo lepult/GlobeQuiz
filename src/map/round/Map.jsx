@@ -62,7 +62,7 @@ const Map = () => {
   const difficulty = useSelector(selectDifficulty);
   const roundLocation = useSelector(selectRoundLocation);
 
-  const restrictMainMapViewBounds = useCallback(({viewState, oldViewState}) => {
+  const restrictMainMapViewBounds = useCallback(({ viewState }) => {
     const longitude = roundLocation[0];
     const latitude = roundLocation[1];
     const tollerance = 0.15;
