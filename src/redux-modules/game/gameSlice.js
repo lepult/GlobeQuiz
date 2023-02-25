@@ -85,6 +85,8 @@ export const gameSlice = createSlice({
                 state.roundNumber += 1;
                 state.roundFinished = false;
 
+                // state.roundLocation = state.locationsPool[state.roundNumber];
+                    
                 const locationIndex = Math.floor(Math.random() * state.locationsPool.length);
                 state.roundLocation = state.locationsPool[locationIndex];
                 state.locationsPool.splice(locationIndex, 1);

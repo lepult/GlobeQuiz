@@ -1,4 +1,40 @@
 export const locationsList = [
+
+
+    // CIV 5 Wonders
+    [80.499722, 6.809444, 0, "Śrī Pāda"],
+    [33.975417, 28.539417, 0, "Mount Sinai"],
+    [81.3125, 31.066667, 0, "Mount Kailash"],
+    [-65.753333, -19.589167,  0, "Potosí"],
+    [-5.343111, 36.124472, 0, "Rock of Gibraltar"],
+
+    [-110.82815, 44.46046, 0, "Old Faithful"],
+    [138.7275, 35.360556, 0, "Mount Fuji"],
+    [105.423, -6.102, 0, "Krakatoa"],
+    [-108.081389, 39.026667, 0, "Grand Mesa"],
+    [-111.023333, 35.028056, 0, "Barringer Crater"],
+
+
+
+    // CIV 6 Wonders
+    [100.1332, 38.91555, 0, "Zhangye National Geopark"],
+    [29.123333, 37.923889, 0, "Pamukkale"],
+    [7.658611, 45.976389, 0, "Matterhorn"],
+    [-104.715278, 44.590556, 0, "Devils Tower"],
+    [6.1202, 58.9405, 0, "Lysefjord"],
+    [-88.5505, 20.6609, 0, "Ik Kil"],
+    [107.2, 20.9, 0, "Hạ Long Bay"],
+    [49.375, 40.125, 0, "Gobustan"],
+    [-6.511667, 55.240833, 0, "Giant's Causeway"],
+    [-19.613333, 63.62, 0, 'Eyjafjallajökull'],
+    [-109.499341, 38.743517, 0, 'Delicate Arch'],
+    [35.5, 31.5, 0, 'Dead Sea '],
+    [1.37, 51.14, 0, 'White Cliffs of Dover'],
+    [124.166667, 9.916667, 0, 'Chocolate Hills'],
+
+
+    [57.5, -20.2, 0, "Mauritius"],
+    [25.433333, 36.416667, 0, "Santorini"],
     [-57.738056 ,49.689444, 0, 'Gros Morne National Park'],
     [-117.313889, 52.157222, 0, 'Columbia Icefield'],
     [-81.081667 ,37.960833, 0, 'New River Gorge National Park'],
@@ -52,6 +88,7 @@ export const locationsList = [
     [30.8,-24.59, 776, 'Blyde River Canyon'],
     [18.403108,-33.957314, 998, 'Table Mountain'],
     [18.475556,-34.358056, 14, 'Cape of Good Hope'],
+    [-11.402, 21.124, 438, 'Guelb er Richat'],
     [37.5878,11.4905, 1613, 'Blue Nile Falls'],
     [38.066667,13.183333, 2328, 'Simien Mountains National Park'],
     [40.3,14.2417, 0, 'Danakil Depression'],
