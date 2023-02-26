@@ -19,11 +19,11 @@ const getDistanceFromLatLonInKm = (lat1, lon1, lat2, lon2) => {
 }
 
 const getScoreFromDistanceInKm = (distance) => {
-    const result = 1000 * (6 - Math.pow(Math.pow(6, 1/5), distance / 1000));
+    const result = Math.pow(Math.E, -distance / 1000 / 2) * 5 * 1000;
 
     if (result > 5000) return 5000;
     if (result < 0) return 0;
-    return Math.floor(result);
+    return Math.ceil(result);
 }
 
 const initialState = {
