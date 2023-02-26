@@ -26,9 +26,9 @@ const MAP_CONTROLLER_EASY = {
   scrollZoom: true,
   dragPan: true,
   dragRotate: true,
-  doubleClickZoom: false,
-  touchZoom: false,
-  touchRotate: false,
+  doubleClickZoom: true,
+  touchZoom: true,
+  touchRotate: true,
   keyboard: false,
 };
 
@@ -40,11 +40,14 @@ const MAP_CONTROLLER_MEDIUM = {
 const MAP_CONTROLLER_DIFFICULT = {
   ...MAP_CONTROLLER_MEDIUM,
   scrollZoom: false,
+  doubleClickZoom: false,
+  touchZoom: false,
 }
 
 const MAP_CONTROLLER_EXPERT = {
   ...MAP_CONTROLLER_DIFFICULT,
   dragRotate: false,
+  touchRotate: false,
 }
 
 const TERRAIN_IMAGE = `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png`;
