@@ -1,8 +1,8 @@
 {
   "name": "deckgl-test",
   "version": "0.1.0",
+  "homepage": "https://lepult.github.io/GlobeQuiz/",
   "private": true,
-  "homepage": ".",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -20,6 +20,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
