@@ -1,12 +1,14 @@
-import { Button, FormControlLabel, LinearProgress, Radio, RadioGroup } from "@mui/material";
+import { Button, LinearProgress } from "@mui/material";
 import React, { useMemo } from "react";
-import { useState } from "react";
-import {BitmapLayer, PathLayer, IconLayer, LineLayer} from '@deck.gl/layers';
-import { MINIMAP_WIDTH, MINIMAP_HEIGHT, ICON_MAPPING, getMarkerColor } from '../../constants/map';
+import { IconLayer, LineLayer} from '@deck.gl/layers';
+import { ICON_MAPPING, getMarkerColor } from '../../constants/map';
 import { TileLayer } from "deck.gl";
 import DeckGL from '@deck.gl/react';
 import { renderSubLayers } from "../round/Minimap";
 import Score from "../Score";
+import { useDispatch, useSelector } from "react-redux";
+import { startNextRound } from "../../redux-modules/game/gameSlice";
+import { selectGuessedLocation, selectRoundDistance, selectRoundLocation, selectRoundNumber, selectRoundScore, selectScore } from "../../redux-modules/game/gameSelector";
 
 const INITIAL_VIEW_STATE = {
     zoom: 4,
@@ -26,14 +28,23 @@ const MINIMAP_CONTROLLER = {
     keyboard: false,
 }
 
-const RoundFinished = ({ onStartNextRound, roundScore, score, distance, roundNumber, guessedLocation, realLocation }) => {
+const RoundFinished = () => {
+    const dispatch = useDispatch();
+
+    const score = useSelector(selectScore);
+    const roundScore = useSelector(selectRoundScore);
+    const distance = useSelector(selectRoundDistance);
+    const roundNumber = useSelector(selectRoundNumber);
+    const guessedLocation = useSelector(selectGuessedLocation);
+    const roundLocation = useSelector(selectRoundLocation);
+    
     const iconData = useMemo(() => [{
         marker: 'guessMarker',
         coordinates: guessedLocation,
     }, {
         marker: 'locationMarker',
-        coordinates: realLocation,
-    }], [guessedLocation, realLocation])
+        coordinates: roundLocation,
+    }], [guessedLocation, roundLocation])
 
     const iconLayer = new IconLayer({
         id: 'minimap-icon-layer',
@@ -63,7 +74,7 @@ const RoundFinished = ({ onStartNextRound, roundScore, score, distance, roundNum
     const lineLayer = new LineLayer({
         data: [{
             from: guessedLocation,
-            to: realLocation,
+            to: roundLocation,
         }],
         getSourcePosition: d => d.from,
         getTargetPosition: d => d.to,
@@ -84,8 +95,8 @@ const RoundFinished = ({ onStartNextRound, roundScore, score, distance, roundNum
                 <DeckGL
                     initialViewState={{
                         ...INITIAL_VIEW_STATE,
-                        longitude: realLocation[0],
-                        latitude: realLocation[1],
+                        longitude: roundLocation[0],
+                        latitude: roundLocation[1],
                     }}
                     controller={MINIMAP_CONTROLLER}
                     layers={[tileLayer, iconLayer, lineLayer]}
@@ -100,7 +111,7 @@ const RoundFinished = ({ onStartNextRound, roundScore, score, distance, roundNum
             </div>
             <div className="round-finished__info">
                 <h1 style={{ margin: '20 0 30px' }}>
-                    Runde {roundNumber + 1}
+                    {roundLocation[3]}
                 </h1>
                 <div style={{
                     display: 'flex',
@@ -119,7 +130,7 @@ const RoundFinished = ({ onStartNextRound, roundScore, score, distance, roundNum
                     </div>
                     <Button
                         variant="contained" 
-                        onClick={onStartNextRound}
+                        onClick={() => dispatch(startNextRound())}
                         style={{
                             marginTop: '30px'
                         }}

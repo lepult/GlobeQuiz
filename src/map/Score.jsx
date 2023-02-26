@@ -1,6 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectRoundNumber, selectScore } from '../redux-modules/game/gameSelector';
 
-const Score = ({ score, roundNumber }) => {
+const Score = () => {
+    const score = useSelector(selectScore);
+    const roundNumber = useSelector(selectRoundNumber);
 
     return (
         <div className='game-info'>

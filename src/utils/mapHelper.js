@@ -4,3 +4,6 @@ export const restrictViewBounds = ({viewState, oldViewState}) => {
     }
     return viewState;
 }
+
+
+  
