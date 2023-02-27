@@ -24,8 +24,8 @@ const MINIMAP_CONTROLLER = {
     scrollZoom: true,
     dragPan: true,
     dragRotate: false,
-    doubleClickZoom: false,
-    touchZoom: false,
+    doubleClickZoom: true,
+    touchZoom: true,
     touchRotate: false,
     keyboard: false,
 }
