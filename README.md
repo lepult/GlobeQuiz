@@ -6,10 +6,6 @@ Welcome to *GlobeQuiz*, a small project developed as part of a university module
 
 In *GlobeQuiz*, players are presented with five different locations they must identify on a world map. The game features four difficulty levels, which progressively restrict the camera's movement, making it more challenging to pinpoint each location accurately.
 
-![alt text](images/Round2.PNG)
-![alt text](images/Round4.PNG)
-![alt text](images/GameEnd2.PNG)
-
 ## Technologies Used
 
 -  **[React](https://github.com/facebook/react)**: For building the user interface.
